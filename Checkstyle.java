@@ -8,6 +8,8 @@ public class Checkstyle {
     }
 
     public static void run(String codePath, String standardPath){
-        Executer.exec("ping www.stackabuse.com");
+        // String[] command = {"java", "-jar", "./checkstyle-9.1-all.jar", "-c", standardPath, codePath};
+        String[] command = {"pwd"};
+        Executer.exec(command);
     }
 }
