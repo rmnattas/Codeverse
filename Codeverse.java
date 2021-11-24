@@ -17,6 +17,7 @@ public class Codeverse {
             Executer.exec(new String[]{"javac", args[1]});  // .java -> .class
             idealSourcePath = args[1];
             idealClassPath = args[1].replace(".java", ".class");
+            Ckjm.run(classPath, idealClassPath);
         }
 
         Checkstyle.run(sourcePath);
