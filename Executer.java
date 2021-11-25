@@ -32,4 +32,15 @@ public class Executer {
             System.out.println(e);
         }
     }
+
+    public static String getFirstResult(Process process){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line = "";
+        try{
+            line = reader.readLine();
+        } catch (Exception e){
+            line = "";
+        }
+        return line;
+    }
 }
