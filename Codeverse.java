@@ -26,7 +26,7 @@ public class Codeverse {
         System.out.println(sourcePath);
         System.out.println(classPath);
 
-        Checkstyle.run(sourcePath);
+        // Checkstyle.run(sourcePath);
         SpotBugs.run(classPath);
     }
 
