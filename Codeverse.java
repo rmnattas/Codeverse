@@ -21,6 +21,8 @@ public class Codeverse {
             idealSourcePath = args[1];
             pathSplit = args[1].split("/");
             idealClassPath = String.join("/", removeLast(pathSplit)) + "/*.class";
+            System.out.println(idealClassPath);
+            Ckjm.run(classPath, idealClassPath);
         }
 
         System.out.println(sourcePath);
