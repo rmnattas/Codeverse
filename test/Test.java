@@ -17,6 +17,7 @@ class Test {
     int fieldname_x;
     int fieldname_y;
     int fieldname_z;
+    final static int notCap;
     String fieldname_s1;
     String fieldname_s2[];
     Set<Integer> fieldname_s3;
@@ -27,6 +28,13 @@ class Test {
 		fieldname_a + fieldname_b +
 		fieldname_c + fieldname_d +
 		fieldname_e);
+    // TODO: populate switch
+    // TODO why not me
+    switch(4){
+        case 1:
+        case 4:
+        break;
+    }
     }
 
     int methodname_2(int i) {
