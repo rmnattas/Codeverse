@@ -17,7 +17,7 @@ class Test {
     int fieldname_x;
     int fieldname_y;
     int fieldname_z;
-    final static int notCap;
+    final static int notCap = 5;
     String fieldname_s1;
     String fieldname_s2[];
     Set<Integer> fieldname_s3;
