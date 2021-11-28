@@ -2,6 +2,8 @@ import java.nio.file.Paths;
 
 
 public class Codeverse {
+
+    final static String TEMP_PATH = "/tmp/Codeverse/";
     public static void main(String[] args){
         String sourcePath, classPath, idealSourcePath, idealClassPath;
         if (args.length == 0){
@@ -9,18 +11,19 @@ public class Codeverse {
             return;
         }
 
-        // compile the java source cocde
-        Executer.exec(new String[]{"javac", args[0]});  // .java -> .class
-        sourcePath = args[0];
-        String[] pathSplit = args[0].split("/");
-        classPath = String.join("/", removeLast(pathSplit)) + "/*.class";;
+        // clean Codeverse tmp
+        Executer.exec(new String[]{"rm", "-rf", TEMP_PATH});
 
+        // compile the java source cocde
+        Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/" , args[0]});  // .java -> .class
+        sourcePath = args[0];
+        classPath = TEMP_PATH+"source/";
+        
         if (args.length == 2){
             // Compile ideal solution
-            Executer.exec(new String[]{"javac", args[1]});  // .java -> .class
+            Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/" ,args[1]});  // .java -> .class
             idealSourcePath = args[1];
-            pathSplit = args[1].split("/");
-            idealClassPath = String.join("/", removeLast(pathSplit)) + "/*.class";
+            idealClassPath = TEMP_PATH+"solution/";
             System.out.println(idealClassPath);
             Ckjm.run(classPath, idealClassPath);
         }
@@ -33,7 +36,7 @@ public class Codeverse {
     }
 
     public static void printHelp(){
-        System.out.println("java -jar Codeverse.jar <source code java file> [ideal source code java file]");
+        System.out.println("java -jar Codeverse.jar <source java file> [solution java file]");
     }
 
     public static String[] removeLast(String[] array){
