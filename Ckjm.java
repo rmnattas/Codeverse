@@ -23,7 +23,9 @@ public class Ckjm {
         ditTest(classMap, idealClassMap);
         cboTest(classMap, idealClassMap);
         lcomTest(classMap, idealClassMap);
-
+        ProgramNocTest(classMap, idealClassMap);
+        ClassNocTest(classMap);
+        WMCtest(classMap,idealClassMap);
     }
 
     public static  Map<String, Map<String, Integer>> parseOutput(String command, Process process){
@@ -139,6 +141,58 @@ public class Ckjm {
                 System.out.println(ratio);
             }
         }
+    }
+
+    public static void ProgramNocTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+        int sum=0;
+        for (String Class:classMap.keySet()){
+            sum+=classMap.get(Class).get("NOC");
+        }
+
+        float student_ratio=(float)sum/classMap.size();
+        
+        sum=0;
+        for (String Class:idealClassMap.keySet()){
+            sum+=idealClassMap.get(Class).get("NOC");
+        }
+
+        float ideal_ratio=(float)sum/idealClassMap.size();
+
+        float ratio=student_ratio/ideal_ratio;
+
+        if (ratio>1.25) System.out.println("Too many inheretance, potentially vulnerable to security explotation");
+        else if (ratio<0.75) System.out.println("Probably not enough inheretance, potentially lacking cohesion in the program");
+        else System.out.println("Program-wise NOC test passed");
+    }
+
+    public static void ClassNocTest(Map<String, Map<String, Integer>> classMap){
+        for (String Class:classMap.keySet()){
+            if (classMap.get(Class).get("NOC")==0){
+                System.out.println("This class is not inherited, consider composition instead");
+            }
+        }
+    }
+
+    public static void WMCtest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+        int sum=0;
+        for (String Class:classMap.keySet()){
+            sum+=classMap.get(Class).get("WMC");
+        }
+
+        float student_ratio=(float)sum/classMap.size();
+        
+        sum=0;
+        for (String Class:idealClassMap.keySet()){
+            sum+=idealClassMap.get(Class).get("WMC");
+        }
+
+        float ideal_ratio=(float)sum/idealClassMap.size();
+
+        float ratio=student_ratio/ideal_ratio;
+
+        if (ratio>1.25) System.out.println("This might be subtle, but do you really need this many classes?");
+        else if (ratio<0.75) System.out.println("Creating more methods in classes can make coding more enjoyable");
+        else System.out.println("Right number of methods among classes");
     }
 
 }
