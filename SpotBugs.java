@@ -15,7 +15,7 @@ public class SpotBugs {
 
 
     public static void run(String classPath){
-        String[] command = {"java", "-jar", "lib/spotbugs/spotbugs.jar", "-textui", "test/"};
+        String[] command = {"java", "-jar", "lib/spotbugs/spotbugs.jar", "-textui", classPath};
         Process p = Executer.exec(command);
         ArrayList<String> rawOutput = Executer.getOutLines(p);
         ArrayList<String> formattedOutput = formatAll(rawOutput);
@@ -50,6 +50,9 @@ public class SpotBugs {
     }
 
     public static ArrayList<String> formatMCUR(HashSet<String> arr){
+        // example output
+        // M C UR: Uninitialized read of fieldname_a in new Test()  At Test.java:[line 27]
+
         ArrayList<String> out = new ArrayList<String>();
 
         if (arr.size() > 0)
@@ -64,10 +67,13 @@ public class SpotBugs {
     }
 
     public static ArrayList<String> formatMPUuF(HashSet<String> arr){
+        // example output
+        // M P UuF: Unused field: Test.fieldname_s1  In Test.java
+
         ArrayList<String> out = new ArrayList<String>();
 
         if (arr.size() > 0)
-            out.add("There is " + arr.size() + " fields that are never used, consider removing them from the code:");
+            out.add("There is " + arr.size() + " fields that are never used, consider removing them from your code:");
 
         for (String s : arr){
             String[] tokens = s.split(" ");

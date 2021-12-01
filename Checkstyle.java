@@ -7,17 +7,12 @@ public class Checkstyle {
     /*
     Checks implemented (from https://checkstyle.org/checks.html)
     - OneTopLevelClass
-    - TodoComment // Standard only check for "TODO:" and "FIXME:" exactly
+    - TodoComment
     - ConstantName
     - 
-    // Implementing more checks may require dublicate check, if found on multiple standard checks
     */
 
-
-    // final static String GOOGLE_STANDARD_PATH = "lib/google_checks.xml";
-    // final static String SUN_STANDARD_PATH = "lib/sun_checks.xml";
-    // final static String CHECKSTYLE_STANDARD_PATH = "lib/checkstyle_checks.xml";
-    final static String[] STANDARDS_PATHS = {"lib/checkstyle_checks.xml", "lib/sun_checks.xml", "lib/google_checks.xml"};
+final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_checks.xml" /*, "lib/checkstyle_checks.xml" */};
     final static String[] CHECKS = {"OneTopLevelClass", "TodoComment", "ConstantName"};
 
     public static void run(String codePath){
@@ -65,8 +60,11 @@ public class Checkstyle {
     }
 
 
-
+    
     public static ArrayList<String> formatOneTopLevelClass(HashSet<String> arr){
+        // example output
+        // [WARN] /Users/aalattas/Documents/UofA/CMPUT416/project/Codeverse/test/Test.java:88:1: Top-level class Test7 has to reside in its own source file. [OneTopLevelClass]
+
         ArrayList<String> out = new ArrayList<String>();
         String[] classes = new String[arr.size()];
 
@@ -83,6 +81,9 @@ public class Checkstyle {
     }
 
     public static ArrayList<String> formatTodoComment(HashSet<String> arr){
+        // example output
+        // [ERROR] /Users/aalattas/Documents/UofA/CMPUT416/project/Codeverse/test/Test.java:31:7: Comment matches to-do format 'TODO:'. [TodoComment]
+
         ArrayList<String> out = new ArrayList<String>();
 
         if (arr.size() > 0)
@@ -96,15 +97,39 @@ public class Checkstyle {
     }
 
     public static ArrayList<String> formatConstantName(HashSet<String> arr){
+        // example output
+        // [ERROR] /Users/aalattas/Documents/UofA/CMPUT416/project/Codeverse/test/Test.java:20:22: Name 'notCap' must match pattern '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'. [ConstantName]
+
         ArrayList<String> out = new ArrayList<String>();
         
         if (arr.size() > 0)
-            out.add("Constants in Java should have an all capital name, you have the " + arr.size() + " constants that do not follow that standard: ");
+            out.add("Constants in Java should have an all capital name with `_` as spaces, you have " + arr.size() + " constants that do not follow that standard: ");
 
         for (String s : arr){
             String[] tokens = s.split(":");
-            out.add(" - " + tokens[0].split(" ")[1] + ":" + tokens[1] + " " + s.split(" ")[3]);
+            String[] path = tokens[0].split(" ")[1].split("/");
+            out.add(" - " + path[path.length-1] + ":" + tokens[1] + " " + s.split(" ")[3] + ", try " + camelToSnake(s.split(" ")[3]).toUpperCase());
         }
         return out;
+    }
+
+    // https://www.geeksforgeeks.org/convert-camel-case-string-to-snake-case-in-java/
+    public static String camelToSnake(String str){
+        // Regular Expression
+        String regex = "([a-z])([A-Z]+)";
+    
+        // Replacement string
+        String replacement = "$1_$2";
+    
+        // Replace the given regex
+        // with replacement string
+        // and convert it to lower case.
+        str = str
+                    .replaceAll(
+                        regex, replacement)
+                    .toLowerCase();
+    
+        // return string
+        return str;
     }
 }
