@@ -5,45 +5,70 @@ public class Codeverse {
 
     final static String TEMP_PATH = "/tmp/Codeverse/";
     public static void main(String[] args){
-        String sourcePath, classPath, idealSourcePath, idealClassPath;
-        if (args.length == 0){
+        String sourcePath, classPath, solutionSourcePath, solutionClassPath;
+        if (args.length < 1){
             printHelp();
             return;
         }
-
+        
+        
         // clean Codeverse tmp
         Executer.exec(new String[]{"rm", "-rf", TEMP_PATH});
+                
+        Boolean runCmp = false;
+        int separatorIndex = strIndexOf(args,"-s");
+        if (separatorIndex != -1){
+            if (separatorIndex == args.length-1 || separatorIndex == 0){
+                // Wrong usage of '-s'
+                printHelp();
+                return;
+            }
+            runCmp = true;
 
-        // compile the java source cocde
-        Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/" , args[0]});  // .java -> .class
-        sourcePath = args[0];
-        classPath = TEMP_PATH+"source/";
-        
-        if (args.length == 2){
-            // Compile ideal solution
-            Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/" ,args[1]});  // .java -> .class
-            idealSourcePath = args[1];
-            idealClassPath = TEMP_PATH+"solution/";
-            System.out.println(idealClassPath);
-            Ckjm.run(classPath, idealClassPath);
+            String[] sourceFiles = new String[separatorIndex];
+            for (int i=0; i<separatorIndex; i++) sourceFiles[i] = args[i];
+            sourcePath = String.join(" ", sourceFiles);
+        }else{
+            sourcePath = String.join(" ", args);
         }
 
+        // compile the java source cocde
+        Process p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/", sourcePath});  // .java -> .class
+        try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
+        classPath = TEMP_PATH+"source/";
+        
         System.out.println(sourcePath);
         System.out.println(classPath);
 
-        Checkstyle.run(sourcePath);
-        SpotBugs.run(classPath);
+        if (runCmp){
+            String[] solutionFiles = new String[args.length - (separatorIndex + 1)];
+            for (int i=0; i<solutionFiles.length; i++) solutionFiles[i] = args[separatorIndex+1+i];
+            solutionSourcePath = String.join(" ", solutionFiles);
+
+            System.out.println(solutionSourcePath);
+            
+            // Compile ideal solution
+            p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath});  // .java -> .class
+            try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
+            solutionClassPath = TEMP_PATH+"solution/";
+            System.out.println(solutionClassPath);
+            Ckjm.run(classPath, solutionClassPath);
+        }
+
+        // Checkstyle.run(sourcePath);
+        // SpotBugs.run(classPath);
     }
 
     public static void printHelp(){
-        System.out.println("java -jar Codeverse.jar <source java file> [solution java file]");
+        System.out.println("java -jar Codeverse.jar <source java file> [-s <solution java file>]");
     }
 
-    public static String[] removeLast(String[] array){
-        String[] newArray = new String[array.length-1];
-        for (int i=0; i<newArray.length; i++){
-            newArray[i] = array[i];
+    // Find "-s"
+    public static int strIndexOf(String[] arr, String str){
+        for (int i=0; i<arr.length; i++){
+            if (arr[i].equals("-s")) return i;
         }
-        return newArray;
+        return -1;
     }
+
 }
