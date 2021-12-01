@@ -39,24 +39,26 @@ public class Codeverse {
         
         System.out.println(sourcePath);
         System.out.println(classPath);
+        System.out.println("=====RECOMMENDATIONS=====");
 
         if (runCmp){
             String[] solutionFiles = new String[args.length - (separatorIndex + 1)];
             for (int i=0; i<solutionFiles.length; i++) solutionFiles[i] = args[separatorIndex+1+i];
             solutionSourcePath = String.join(" ", solutionFiles);
 
-            System.out.println(solutionSourcePath);
-            
             // Compile ideal solution
             p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath});  // .java -> .class
             try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
             solutionClassPath = TEMP_PATH+"solution/";
-            System.out.println(solutionClassPath);
+        System.out.println("----------Design-----------\n");
             Ckjm.run(classPath, solutionClassPath);
         }
 
-        // Checkstyle.run(sourcePath);
-        // SpotBugs.run(classPath);
+        System.out.println("-----Style Conventions-----\n");
+        Checkstyle.run(sourcePath);
+        
+        System.out.println("-------Possible Bugs-------\n");
+        SpotBugs.run(classPath);
     }
 
     public static void printHelp(){

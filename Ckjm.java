@@ -4,28 +4,30 @@ import java.util.*;
 
 public class Ckjm {
 
+    static int ctr = 1;
+
     public static void run(String classPath, String idealClassPath){
         String command = "java " + "-jar " + "lib/ckjm-1.8.jar ";
-        String get_class_files_command = "ls " + "test/";
-        System.out.println(get_class_files_command);
+        String getClassFiles1 = "ls " + classPath;
+        String getClassFiles2 = "ls " + idealClassPath;
 
-        Process p = Executer.exec(get_class_files_command);
-        Map<String, Map<String, Integer>> classMap = parseOutput(command, p);
+        Process p = Executer.exec(getClassFiles1);
+        Map<String, Map<String, Integer>> classMap = parseOutput(command + classPath, p);
 
-        Process p1 = Executer.exec(get_class_files_command);
-        Map<String, Map<String, Integer>> idealClassMap = parseOutput(command, p1);
+        Process p1 = Executer.exec(getClassFiles2);
+        Map<String, Map<String, Integer>> idealClassMap = parseOutput(command + idealClassPath, p1);
 
-        for (String key: classMap.keySet()) {
-            System.out.println(key);
-            System.out.println(classMap.get(key));
-        }
+        // for (String key: classMap.keySet()) {
+        //     System.out.println(key);
+        //     System.out.println(classMap.get(key));
+        // }
 
-        ditTest(classMap, idealClassMap);
-        cboTest(classMap, idealClassMap);
-        lcomTest(classMap, idealClassMap);
-        ProgramNocTest(classMap, idealClassMap);
-        ClassNocTest(classMap);
-        WMCtest(classMap,idealClassMap);
+        inheritanceTest(classMap, idealClassMap);
+        couplingTest(classMap, idealClassMap);
+        cohesionTest(classMap, idealClassMap);
+        // ProgramNocTest(classMap, idealClassMap);
+        // ClassNocTest(classMap);
+        publicMethodsTest(classMap);
     }
 
     public static  Map<String, Map<String, Integer>> parseOutput(String command, Process process){
@@ -36,7 +38,7 @@ public class Ckjm {
 
         try{
             while ((line = reader.readLine()) != null) {
-                String curr_command = command + "test/" + line;
+                String curr_command = command + line;
                 Process p1 = Executer.exec(curr_command);
                 String output_string = Executer.getFirstResult(p1);
                 if(output_string != null){
@@ -56,7 +58,7 @@ public class Ckjm {
         return class_map;
     }
 
-    public static void ditTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+    public static void inheritanceTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
         
         float sumStudent = 0;
         float sumInstructor = 0;
@@ -79,14 +81,20 @@ public class Ckjm {
             ratio = sumStudent/sumInstructor;
         }
 
-        if (ratio == 0) System.out.println("Try incorporate some inheratnce in your code");
-        else if (ratio > 1) System.out.println("Use Composition over inheritance");
-        else System.out.println("-----Inheritance TEST PASSED-----!");
-        System.out.println(ratio);
+        if (ratio == 0) {
+            System.out.println("    " + ctr + ". Try incorporate some inheratnce in your code\n");
+            ctr += 1;
+        }
+        else if (ratio > 1) {
+            System.out.println("    " + ctr + ". Use Composition over inheritance\n");
+            ctr += 1;
+        }
+        // else System.out.println("-----Inheritance TEST PASSED-----!");
+        // System.out.println(ratio);
     }
 
 
-    public static void cboTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+    public static void couplingTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
         
         float sumStudent = 0;
         float sumInstructor = 0;
@@ -113,14 +121,20 @@ public class Ckjm {
             ratio = (sumStudent*idealClassMap.size())/(sumInstructor*classMap.size());
         }
 
-        if (ratio <= 0.75) System.out.println("Coupling between classes is very less. Possibility of redundancy in the code.");
-        else if (ratio >= 1.25) System.out.println("Too much coupling between classes, try to make your classes more independent");
-        else System.out.println("-----Coupling TEST PASSED-----!");
-        System.out.println(ratio);
+        if (ratio <= 0.75) {
+            System.out.println("    " + ctr + ". Coupling between classes is very less. Possibility of redundancy in the code.\n");
+            ctr += 1;
+        }
+        else if (ratio >= 1.25) {
+            System.out.println("    " + ctr + ". Too much coupling between classes, try to make your classes more independent\n");
+            ctr += 1;
+        }
+        // else System.out.println("-----Coupling TEST PASSED-----!");
+        // System.out.println(ratio);
     }
 
 
-    public static void lcomTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+    public static void cohesionTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
     
         for (String studentClass: classMap.keySet()) {
             float ratio, studentAvgLcom, instructorAvgLcom;
@@ -136,63 +150,54 @@ public class Ckjm {
                     ratio = studentAvgLcom/instructorAvgLcom;        
                 }
 
-                if (ratio >= 1.25) System.out.println("Methods in the class: '" + studentClass + "' are less cohesive./n Remove or Rewrite the unrelated methods.");
-                else System.out.println("-----" + studentClass + ".class: Cohesion TEST PASSED-----!");
-                System.out.println(ratio);
+                if (ratio >= 1.25) {
+                    System.out.println("    " + ctr + ". " + studentClass + ".class: Methods in the class are less cohesive.\n\t  Remove or Rewrite the unrelated methods.\n");
+                    ctr += 1;
+                }
+                // else System.out.println("-----" + studentClass + ".class: Cohesion TEST PASSED-----!");
+                // System.out.println(ratio);
             }
         }
     }
 
-    public static void ProgramNocTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
-        int sum=0;
-        for (String Class:classMap.keySet()){
-            sum+=classMap.get(Class).get("NOC");
-        }
+    // public static void ProgramNocTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
+    //     int sum=0;
+    //     for (String Class:classMap.keySet()){
+    //         sum+=classMap.get(Class).get("NOC");
+    //     }
 
-        float student_ratio=(float)sum/classMap.size();
+    //     float student_ratio=(float)sum/classMap.size();
         
-        sum=0;
-        for (String Class:idealClassMap.keySet()){
-            sum+=idealClassMap.get(Class).get("NOC");
-        }
+    //     sum=0;
+    //     for (String Class:idealClassMap.keySet()){
+    //         sum+=idealClassMap.get(Class).get("NOC");
+    //     }
 
-        float ideal_ratio=(float)sum/idealClassMap.size();
+    //     float ideal_ratio=(float)sum/idealClassMap.size();NPM
 
-        float ratio=student_ratio/ideal_ratio;
+    //     float ratio=student_ratio/ideal_ratio;
 
-        if (ratio>1.25) System.out.println("Too many inheretance, potentially vulnerable to security explotation");
-        else if (ratio<0.75) System.out.println("Probably not enough inheretance, potentially lacking cohesion in the program");
-        else System.out.println("Program-wise NOC test passed");
-    }
+    //     if (ratio>1.25) System.out.println("Too many inheretance, potentially vulnerable to security explotation");
+    //     else if (ratio<0.75) System.out.println("Probably not enough inheretance, potentially lacking cohesion in the program");
+    //     else System.out.println("Program-wise NOC test passed");
+    // }
 
-    public static void ClassNocTest(Map<String, Map<String, Integer>> classMap){
+    // public static void ClassNocTest(Map<String, Map<String, Integer>> classMap){
+    //     for (String Class:classMap.keySet()){
+    //         if (classMap.get(Class).get("NOC")==0){
+    //             System.out.println("This class is not inherited, consider composition instead");
+    //         }
+    //     }
+    // }
+
+    public static void publicMethodsTest(Map<String, Map<String, Integer>> classMap){
         for (String Class:classMap.keySet()){
-            if (classMap.get(Class).get("NOC")==0){
-                System.out.println("This class is not inherited, consider composition instead");
+            if(classMap.get(Class).get("WMC") <= 1) {
+                System.out.println("    " + ctr + ". " + Class + ".class: No pubic methods found! Methods of this class can't be accessed anywhere.\n\t   kindly add public methods or delete the class\n");
+                ctr += 1;
             }
+            // else System.out.println("-----" + Class + ".class: Public Methods TEST PASSED-----!");
         }
-    }
-
-    public static void WMCtest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
-        int sum=0;
-        for (String Class:classMap.keySet()){
-            sum+=classMap.get(Class).get("WMC");
-        }
-
-        float student_ratio=(float)sum/classMap.size();
-        
-        sum=0;
-        for (String Class:idealClassMap.keySet()){
-            sum+=idealClassMap.get(Class).get("WMC");
-        }
-
-        float ideal_ratio=(float)sum/idealClassMap.size();
-
-        float ratio=student_ratio/ideal_ratio;
-
-        if (ratio>1.25) System.out.println("This might be subtle, but do you really need this many classes?");
-        else if (ratio<0.75) System.out.println("Creating more methods in classes can make coding more enjoyable");
-        else System.out.println("Right number of methods among classes");
     }
 
 }
