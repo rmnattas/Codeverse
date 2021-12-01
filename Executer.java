@@ -23,7 +23,7 @@ public class Executer {
     }
 
     public static void printResults(Process process){
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line = "";
         try{
             while ((line = reader.readLine()) != null) {

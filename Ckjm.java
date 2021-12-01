@@ -8,19 +8,19 @@ public class Ckjm {
 
     public static void run(String classPath, String idealClassPath){
         String command = "java " + "-jar " + "lib/ckjm-1.8.jar ";
-        String get_class_files_command = "ls " + "test/";
-        System.out.println(get_class_files_command);
+        String getClassFiles1 = "ls " + classPath;
+        String getClassFiles2 = "ls " + idealClassPath;
 
-        Process p = Executer.exec(get_class_files_command);
-        Map<String, Map<String, Integer>> classMap = parseOutput(command, p);
+        Process p = Executer.exec(getClassFiles1);
+        Map<String, Map<String, Integer>> classMap = parseOutput(command + classPath, p);
 
-        Process p1 = Executer.exec(get_class_files_command);
-        Map<String, Map<String, Integer>> idealClassMap = parseOutput(command, p1);
+        Process p1 = Executer.exec(getClassFiles2);
+        Map<String, Map<String, Integer>> idealClassMap = parseOutput(command + idealClassPath, p1);
 
-        for (String key: classMap.keySet()) {
-            System.out.println(key);
-            System.out.println(classMap.get(key));
-        }
+        // for (String key: classMap.keySet()) {
+        //     System.out.println(key);
+        //     System.out.println(classMap.get(key));
+        // }
 
         inheritanceTest(classMap, idealClassMap);
         couplingTest(classMap, idealClassMap);
@@ -38,7 +38,7 @@ public class Ckjm {
 
         try{
             while ((line = reader.readLine()) != null) {
-                String curr_command = command + "test/" + line;
+                String curr_command = command + line;
                 Process p1 = Executer.exec(curr_command);
                 String output_string = Executer.getFirstResult(p1);
                 if(output_string != null){
@@ -82,11 +82,11 @@ public class Ckjm {
         }
 
         if (ratio == 0) {
-            System.out.println("\t" + ctr + ". Try incorporate some inheratnce in your code\n");
+            System.out.println("    " + ctr + ". Try incorporate some inheratnce in your code\n");
             ctr += 1;
         }
         else if (ratio > 1) {
-            System.out.println("\t" + ctr + ". Use Composition over inheritance\n");
+            System.out.println("    " + ctr + ". Use Composition over inheritance\n");
             ctr += 1;
         }
         // else System.out.println("-----Inheritance TEST PASSED-----!");
@@ -122,11 +122,11 @@ public class Ckjm {
         }
 
         if (ratio <= 0.75) {
-            System.out.println("\t" + ctr + ". Coupling between classes is very less. Possibility of redundancy in the code.\n");
+            System.out.println("    " + ctr + ". Coupling between classes is very less. Possibility of redundancy in the code.\n");
             ctr += 1;
         }
         else if (ratio >= 1.25) {
-            System.out.println("\t" + ctr + ". Too much coupling between classes, try to make your classes more independent\n");
+            System.out.println("    " + ctr + ". Too much coupling between classes, try to make your classes more independent\n");
             ctr += 1;
         }
         // else System.out.println("-----Coupling TEST PASSED-----!");
@@ -151,7 +151,7 @@ public class Ckjm {
                 }
 
                 if (ratio >= 1.25) {
-                    System.out.println("\t" + ctr + ". " + Class + ".class: Methods in the class are less cohesive.\n\t  Remove or Rewrite the unrelated methods.\n");
+                    System.out.println("    " + ctr + ". " + studentClass + ".class: Methods in the class are less cohesive.\n\t  Remove or Rewrite the unrelated methods.\n");
                     ctr += 1;
                 }
                 // else System.out.println("-----" + studentClass + ".class: Cohesion TEST PASSED-----!");
@@ -193,7 +193,7 @@ public class Ckjm {
     public static void publicMethodsTest(Map<String, Map<String, Integer>> classMap){
         for (String Class:classMap.keySet()){
             if(classMap.get(Class).get("WMC") <= 1) {
-                System.out.println("\t" + ctr + ". " + Class + ".class: No pubic methods found! Methods of this class can't be accessed anywhere.\n\t   kindly add public methods or delete the class\n");
+                System.out.println("    " + ctr + ". " + Class + ".class: No pubic methods found! Methods of this class can't be accessed anywhere.\n\t   kindly add public methods or delete the class\n");
                 ctr += 1;
             }
             // else System.out.println("-----" + Class + ".class: Public Methods TEST PASSED-----!");
