@@ -58,9 +58,11 @@ public class SpotBugs {
         if (arr.size() > 0)
             out.add("Variables should not be read before initialization, there is " + arr.size() + " accesses to uninitialized variables:");
 
+        int ctr = 1;
         for (String s : arr){
             String[] tokens = s.split(" ");
-            out.add(" - " + tokens[tokens.length-2] + tokens[tokens.length-1] + " \'" + tokens[6] + "\' in " + tokens[9]);
+            out.add("    " + ctr + ". " + tokens[tokens.length-2] + tokens[tokens.length-1] + " \'" + tokens[6] + "\' in " + tokens[9]);
+            ctr++;
         }
 
         return out;
@@ -75,9 +77,11 @@ public class SpotBugs {
         if (arr.size() > 0)
             out.add("There is " + arr.size() + " fields that are never used, consider removing them from your code:");
 
+        int ctr = 1;
         for (String s : arr){
             String[] tokens = s.split(" ");
-            out.add(" - " + tokens[5] + " in " + tokens[tokens.length-1]);
+            out.add("    " + ctr + ". " + tokens[5] + " in " + tokens[tokens.length-1]);
+            ctr++;
         }
 
         return out;
