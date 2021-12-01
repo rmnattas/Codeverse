@@ -64,7 +64,7 @@ public class SpotBugs {
             out.add("    " + ctr + ". " + tokens[tokens.length-2] + tokens[tokens.length-1] + " \'" + tokens[6] + "\' in " + tokens[9]);
             ctr++;
         }
-
+        out.add("");
         return out;
     }
 
@@ -83,7 +83,7 @@ public class SpotBugs {
             out.add("    " + ctr + ". " + tokens[5] + " in " + tokens[tokens.length-1]);
             ctr++;
         }
-
+        out.add("");
         return out;
     }
 }

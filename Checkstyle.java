@@ -77,6 +77,7 @@ final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_check
 
         if (arr.size() > 0)
             out.add("Each top-level public class should be in its separate file, you have " + arr.size() + " classes that should be in a separate file: " + String.join(", ", classes) + ".");
+        out.add("");
         return out;
     }
 
@@ -94,6 +95,7 @@ final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_check
             String[] tokens = s.split(":");
             out.add("    " + ctr + ". "+ tokens[0].split(" ")[1] + ":" + tokens[1]);
         }
+        out.add("");
         return out;
     }
 
@@ -113,6 +115,7 @@ final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_check
             out.add("    " + ctr + ". " + path[path.length-1] + ":" + tokens[1] + " " + s.split(" ")[3] + ", try " + camelToSnake(s.split(" ")[3]).toUpperCase());
             ctr++;
         }
+        out.add("");
         return out;
     }
 

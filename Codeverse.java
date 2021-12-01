@@ -59,6 +59,8 @@ public class Codeverse {
         
         System.out.println("-------Possible Bugs-------\n");
         SpotBugs.run(classPath);
+
+        System.out.println("===========================\n");
     }
 
     public static void printHelp(){
