@@ -33,7 +33,8 @@ public class Codeverse {
         }
 
         // compile the java source cocde
-        Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/", sourcePath});  // .java -> .class
+        Process p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/", sourcePath});  // .java -> .class
+        try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
         classPath = TEMP_PATH+"source/";
         
         System.out.println(sourcePath);
@@ -47,7 +48,8 @@ public class Codeverse {
             System.out.println(solutionSourcePath);
             
             // Compile ideal solution
-            Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath});  // .java -> .class
+            p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath});  // .java -> .class
+            try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
             solutionClassPath = TEMP_PATH+"solution/";
             System.out.println(solutionClassPath);
             Ckjm.run(classPath, solutionClassPath);
