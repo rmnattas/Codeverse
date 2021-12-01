@@ -1,4 +1,3 @@
-package ParkingSystem.Service;
 
 public class Vehicle {
     private String regNumber;

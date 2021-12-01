@@ -1,6 +1,9 @@
+public class Vehicle {
+
 private String regNumber;
     private String ownerName;
     private long mobileNo;
+
 
     public Vehicle(String regNumber, String ownerName, long mobileNo) {
         this.regNumber = regNumber;

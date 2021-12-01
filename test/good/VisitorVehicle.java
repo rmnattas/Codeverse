@@ -1,4 +1,3 @@
-package ParkingSystem.Service;
 
 public class VisitorVehicle extends Vehicle{
     private int visitingFlatNumber;

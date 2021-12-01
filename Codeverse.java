@@ -33,7 +33,11 @@ public class Codeverse {
         }
 
         // compile the java source cocde
-        Process p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"source/", sourcePath});  // .java -> .class
+
+        String[] cmd = new String[]{"javac", "-d", TEMP_PATH+"source/", sourcePath};
+        Process p = Executer.exec(cmd);  // .java -> .class
+        System.out.println(String.join(" ", cmd));
+        Executer.printResults(p);
         try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
         classPath = TEMP_PATH+"source/";
         
@@ -46,11 +50,18 @@ public class Codeverse {
             for (int i=0; i<solutionFiles.length; i++) solutionFiles[i] = args[separatorIndex+1+i];
             solutionSourcePath = String.join(" ", solutionFiles);
 
+
             // Compile ideal solution
-            p = Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath});  // .java -> .class
+            cmd = new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath};
+            p = Executer.exec(cmd);  // .java -> .class
+            Executer.printResults(p);
             try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
             solutionClassPath = TEMP_PATH+"solution/";
-        System.out.println("----------Design-----------\n");
+
+            System.out.println(solutionSourcePath);
+            System.out.println(solutionClassPath);
+
+            System.out.println("----------Design-----------\n");
             Ckjm.run(classPath, solutionClassPath);
         }
 

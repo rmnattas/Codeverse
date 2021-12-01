@@ -17,10 +17,10 @@ public class Ckjm {
         Process p1 = Executer.exec(getClassFiles2);
         Map<String, Map<String, Integer>> idealClassMap = parseOutput(command + idealClassPath, p1);
 
-        // for (String key: classMap.keySet()) {
-        //     System.out.println(key);
-        //     System.out.println(classMap.get(key));
-        // }
+        for (String key: classMap.keySet()) {
+            System.out.println(key);
+            System.out.println(classMap.get(key));
+        }
 
         inheritanceTest(classMap, idealClassMap);
         couplingTest(classMap, idealClassMap);

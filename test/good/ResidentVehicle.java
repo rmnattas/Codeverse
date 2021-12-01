@@ -1,4 +1,3 @@
-package ParkingSystem.Service;
 
 public class ResidentVehicle extends Vehicle{
     private int flatNo;
@@ -32,3 +31,4 @@ public class ResidentVehicle extends Vehicle{
                 "flatNo= " + flatNo +"   "+
                 ", parkingStatus= " + parkingStatus+"\n";
     }
+}
