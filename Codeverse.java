@@ -6,9 +6,15 @@ public class Codeverse {
     final static String TEMP_PATH = "/tmp/Codeverse/";
     public static void main(String[] args){
         String sourcePath, classPath, idealSourcePath, idealClassPath;
-        if (args.length == 0){
+        if (args.length < 1){
             printHelp();
             return;
+        }
+
+        int separatorArg = strIndexOf(args,"-s");
+        Boolean runCmp = false;
+        if (separatorArg != -1){
+            runCmp = true;
         }
 
         // clean Codeverse tmp
@@ -19,7 +25,7 @@ public class Codeverse {
         sourcePath = args[0];
         classPath = TEMP_PATH+"source/";
         
-        if (args.length == 2){
+        if (runCmp){
             // Compile ideal solution
             Executer.exec(new String[]{"javac", "-d", TEMP_PATH+"solution/" ,args[1]});  // .java -> .class
             idealSourcePath = args[1];
@@ -36,14 +42,15 @@ public class Codeverse {
     }
 
     public static void printHelp(){
-        System.out.println("java -jar Codeverse.jar <source java file> [solution java file]");
+        System.out.println("java -jar Codeverse.jar <source java file> [-s <solution java file>]");
     }
 
-    public static String[] removeLast(String[] array){
-        String[] newArray = new String[array.length-1];
-        for (int i=0; i<newArray.length; i++){
-            newArray[i] = array[i];
+    // Find "-s"
+    public static int strIndexOf(String[] arr, String str){
+        for (int i=0; i<=arr.length; i++){
+            if (arr[i] == str) return i;
         }
-        return newArray;
+        return -1;
     }
+
 }
