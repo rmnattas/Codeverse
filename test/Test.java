@@ -88,4 +88,3 @@ class Test6 {
 class Test7 {
     public void foo(Test a) {}
 }
-
