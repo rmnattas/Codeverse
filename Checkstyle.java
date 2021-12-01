@@ -89,9 +89,10 @@ final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_check
         if (arr.size() > 0)
             out.add("You have " + arr.size() + " \"TODO:\" or \"FIXME:\" comments:");
 
+        int ctr=1;
         for (String s : arr){
             String[] tokens = s.split(":");
-            out.add(" - " + tokens[0].split(" ")[1] + ":" + tokens[1]);
+            out.add("    " + ctr + ". "+ tokens[0].split(" ")[1] + ":" + tokens[1]);
         }
         return out;
     }
@@ -105,10 +106,12 @@ final static String[] STANDARDS_PATHS = {"lib/sun_checks.xml", "lib/google_check
         if (arr.size() > 0)
             out.add("Constants in Java should have an all capital name with `_` as spaces, you have " + arr.size() + " constants that do not follow that standard: ");
 
+        int ctr=1;
         for (String s : arr){
             String[] tokens = s.split(":");
             String[] path = tokens[0].split(" ")[1].split("/");
-            out.add(" - " + path[path.length-1] + ":" + tokens[1] + " " + s.split(" ")[3] + ", try " + camelToSnake(s.split(" ")[3]).toUpperCase());
+            out.add("    " + ctr + ". " + path[path.length-1] + ":" + tokens[1] + " " + s.split(" ")[3] + ", try " + camelToSnake(s.split(" ")[3]).toUpperCase());
+            ctr++;
         }
         return out;
     }
