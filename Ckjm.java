@@ -7,7 +7,7 @@ public class Ckjm {
     static int ctr = 1;
 
     public static void run(String classPath, String idealClassPath){
-        String command = "java " + "-jar " + "lib/ckjm-1.8.jar ";
+        String command = "java " + "-jar " + "lib/ckjm-1.9.jar ";
         String getClassFiles1 = "ls " + classPath;
         String getClassFiles2 = "ls " + idealClassPath;
 
