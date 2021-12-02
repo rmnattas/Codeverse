@@ -84,11 +84,11 @@ public class Ckjm {
         }
 
         if (ratio == 0) {
-            System.out.println("    " + ctr + ". Try incorporate some inheratnce in your code\n");
+            System.out.println("    " + ctr + ". Depth of Inheritance is low, try to incorporate some Inheritnce in your code\n");
             ctr += 1;
         }
         else if (ratio > 1) {
-            System.out.println("    " + ctr + ". Use Composition over inheritance\n");
+            System.out.println("    " + ctr + ". Depth of inheritance is too large, try to Use Composition over Inheritance for some classes\n");
             ctr += 1;
         }
         // else System.out.println("-----Inheritance TEST PASSED-----!");
