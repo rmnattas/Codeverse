@@ -54,7 +54,6 @@ public class Codeverse {
             // Compile ideal solution
             cmd = new String[]{"javac", "-d", TEMP_PATH+"solution/", solutionSourcePath};
             p = Executer.exec(cmd);  // .java -> .class
-            Executer.printResults(p);
             try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
             solutionClassPath = TEMP_PATH+"solution/";
 

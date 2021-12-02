@@ -7,11 +7,12 @@ public class Ckjm {
     static int ctr = 1;
 
     public static void run(String classPath, String idealClassPath){
-        String command = "java " + "-jar " + "lib/ckjm-1.8.jar ";
+        String command = "java " + "-jar " + "lib/ckjm-1.9.jar ";
         String getClassFiles1 = "ls " + classPath;
         String getClassFiles2 = "ls " + idealClassPath;
 
         Process p = Executer.exec(getClassFiles1);
+        Executer.printResults(p);
         Map<String, Map<String, Integer>> classMap = parseOutput(command + classPath, p);
 
         Process p1 = Executer.exec(getClassFiles2);
@@ -39,6 +40,7 @@ public class Ckjm {
         try{
             while ((line = reader.readLine()) != null) {
                 String curr_command = command + line;
+                System.out.println(curr_command);
                 Process p1 = Executer.exec(curr_command);
                 String output_string = Executer.getFirstResult(p1);
                 if(output_string != null){
