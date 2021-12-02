@@ -30,14 +30,14 @@ class Test {
     }
 
     int methodname_2(int i) {
-	System.out.println("hi");
-	return (fieldname_a + fieldname_b + fieldname_e);
+	    System.out.println("hi");
+	    return (fieldname_a + fieldname_b + fieldname_e);
     }
 
     AbstractCollection methodname_3(AbstractCollection a, ArrayList b[]) {
-	System.out.println("hi");
-	Integer i = new Integer(fieldname_x + fieldname_y + fieldname_z);
-	return a;
+        System.out.println("hi");
+        Integer i = new Integer(fieldname_x + fieldname_y + fieldname_z);
+        return a;
     }
 }
 

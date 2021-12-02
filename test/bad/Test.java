@@ -21,19 +21,19 @@ class Test {
     static int sa;
 
     Test() {
-	System.out.println(fieldname_a + fieldname_b);
-    // TODO: populate switch
+        System.out.println(fieldname_a + fieldname_b);
+        // TODO: populate switch
     }
 
     static int methodname_2(int i) {
-	System.out.println("hi");
-	return (sa);
+        System.out.println("hi");
+        return (sa);
     }
 
     AbstractCollection methodname_3(AbstractCollection a, ArrayList b[]) {
-	System.out.println("hi");
-	Integer i = new Integer(fieldname_x + fieldname_y + fieldname_z);
-	return a;
+        System.out.println("hi");
+        Integer i = new Integer(fieldname_x + fieldname_y + fieldname_z);
+        return a;
     }
 }
 
@@ -52,15 +52,14 @@ class Test2 {
 }
 
 /* Coupling (1) via method invocation */
-class Test3 extends SSTest{
+class Test3 extends Test{
     void foo() { methodname_2(1); }
 }
 
 /* Coupling (2) via local variable type ctor */
-class Test4 {
-    void foo() { STest a = new SSTest(); a.methodname_2(4); }
+class Test4 extends SSTest{
+    void foo() { return methodname_2(4); }
 }
-
 
 /* Coupling (1) via field access */
 class Test5 {
