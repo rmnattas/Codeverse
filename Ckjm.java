@@ -12,15 +12,16 @@ public class Ckjm {
         String getClassFiles2 = "ls " + idealClassPath;
 
         Process p = Executer.exec(getClassFiles1);
+        Executer.printResults(p);
         Map<String, Map<String, Integer>> classMap = parseOutput(command + classPath, p);
 
         Process p1 = Executer.exec(getClassFiles2);
         Map<String, Map<String, Integer>> idealClassMap = parseOutput(command + idealClassPath, p1);
 
-        for (String key: classMap.keySet()) {
-            System.out.println(key);
-            System.out.println(classMap.get(key));
-        }
+        // for (String key: classMap.keySet()) {
+        //     System.out.println(key);
+        //     System.out.println(classMap.get(key));
+        // }
 
         inheritanceTest(classMap, idealClassMap);
         couplingTest(classMap, idealClassMap);
@@ -39,6 +40,7 @@ public class Ckjm {
         try{
             while ((line = reader.readLine()) != null) {
                 String curr_command = command + line;
+                // System.out.println(curr_command);
                 Process p1 = Executer.exec(curr_command);
                 String output_string = Executer.getFirstResult(p1);
                 if(output_string != null){
