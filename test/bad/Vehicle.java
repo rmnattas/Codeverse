@@ -8,9 +8,9 @@ class ParkingManagementDemo
         Vehicle v1 = new ResidentVehicle("Tn472","Dharanie",12345667,100,true);
         Vehicle v2 = new ResidentVehicle("Tn572","Simren",98765432,200,false);
         Vehicle v3 = new ResidentVehicle("Tn123","Nila",45367281,300,true);
-        Vehicle v4 = new VisitorVehicle("Tn879","Dharanie",12345667,100,"15");
-        Vehicle v5 = new VisitorVehicle("Tn784","Simren",98765432,200,"12");
-        Vehicle v6 = new VisitorVehicle("Tn908","Nila",45367281,300,"18");
+        VisitorVehicle v4 = new VisitorVehicle("Tn879","Dharanie",12345667,100,"15");
+        VisitorVehicle v5 = new VisitorVehicle("Tn784","Simren",98765432,200,"12");
+        VisitorVehicle v6 = new VisitorVehicle("Tn908","Nila",45367281,300,"18");
         System.out.println(pm.addVehicle(v1));
         System.out.println(pm.addVehicle(v2));
         System.out.println(pm.addVehicle(v3));
@@ -70,13 +70,45 @@ public class Vehicle {
 }
 
 
-class VisitorVehicle extends Vehicle{
+class VisitorVehicle{
+    private String regNumber;
+    private String ownerName;
+    private long mobileNo;
+    private long vehicleModel;
+
+    public String getRegNumber() {
+        return regNumber;
+    }
+
+    public void setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public long getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(long mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
     private int visitingFlatNumber;
     private String inTime;
     private String outTime;
 
     public VisitorVehicle(String regNumber, String ownerName, long mobileNo, int visitingFlatNumber, String inTime) {
-        super(regNumber, ownerName, mobileNo);
+        this.regNumber=regNumber;
+        this.ownerName=ownerName;
+        this.mobileNo=mobileNo;
+        
         this.visitingFlatNumber = visitingFlatNumber;
         this.inTime = inTime;
         this.outTime = null;
@@ -151,13 +183,14 @@ class ResidentVehicle extends Vehicle{
     }
 }
 
-
 class ParkingManagement {
     private List<Vehicle> allVehicles;
     private int slot =10,s=0;
     public ParkingManagement() {
         allVehicles = new ArrayList<Vehicle>();
     }
+    ArrayList<String> ResidentVehicleList=new ArrayList<String>();
+    ArrayList<String> VisitorVehicleList=new ArrayList<String>();
     public String addVehicle(Vehicle vehicle) throws ParkingSlotNotAvailableException {
         if(vehicle instanceof ResidentVehicle){
             allVehicles.add(vehicle);
@@ -171,10 +204,21 @@ class ParkingManagement {
         s++;
         return "Vehicle parked at parking slot No :V"+allVehicles.size();
     }
+    public String addVehicle(VisitorVehicle vehicle) throws ParkingSlotNotAvailableException {
+        if(ResidentVehicleList.contains(vehicle.getRegNumber())){
+            // allVehicles.add(vehicle);
+            return "Vehicle parked at parking slot No :R"+(allVehicles.size()-s);
+        }
+        else if(slot == 0){
+            throw new ParkingSlotNotAvailableException();
+        }
+        
+        slot--;
+        s++;
+        return "Vehicle parked at parking slot No :V"+allVehicles.size();
+    }
     public String setVisitorVehicleOutTime(String regNumber, String outTime) throws VehicleNotFoundException {
-      List<Vehicle> ve =  allVehicles.stream().filter(i->i instanceof VisitorVehicle)
-                         .filter(j->j.getRegNumber().equalsIgnoreCase(regNumber)).
-                          collect(Collectors.toList());
+      List<VisitorVehicle> ve =  (List)VisitorVehicleList;
       if(ve.isEmpty())
           throw new VehicleNotFoundException();
         ((VisitorVehicle)ve.get(0)).setOutTime(outTime);
@@ -214,15 +258,24 @@ class ParkingManagement {
             }
         j = 1;
         s += "\n\nVisitor Vehicle\n\n";
-        for(Vehicle i: allVehicles)
-            if(i instanceof VisitorVehicle){
-                s += j+".   ";
-                s += i;
-                j++;
-            }
+        
+        return s;
+    }
 
-
-            return s;
+    public void randomOne(){
+    	;
+    }
+    
+    public void randomTwo(){
+    	;
+    }
+    
+    public void randomThree(){
+    	;
+    }
+    
+    public void randomFour(){
+    	;
     }
 }
 
@@ -243,5 +296,12 @@ class ParkingSlotNotAvailableException extends Throwable {
 
     public ParkingSlotNotAvailableException(String message) {
         super(message);
+    }
+}
+
+class ParkingManagementSQL {
+
+    private ParkingManagementSQL(){
+        ;
     }
 }
