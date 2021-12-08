@@ -3,7 +3,10 @@
  *
  * $Id: \\dds\\src\\Research\\ckjm.RCS\\tests\\Test.java,v 1.2 2005/11/05 08:37:28 dds Exp $
  *
+ * Site: https://github.com/dspinellis/ckjm/tree/master/tests
  */
+
+ 
 
 import java.util.*;
 
@@ -27,7 +30,7 @@ class Test {
 
     static int methodname_2(int i) {
         System.out.println("hi");
-        return (sa);
+        return (sa);                                //CHANGED//
     }
 
     AbstractCollection methodname_3(AbstractCollection a, ArrayList b[]) {
@@ -52,12 +55,12 @@ class Test2 {
 }
 
 /* Coupling (1) via method invocation */
-class Test3 extends Test{
+class Test3 extends Test{                             //CHANGED//
     void foo() { methodname_2(1); }
 }
 
 /* Coupling (2) via local variable type ctor */
-class Test4 extends SSTest{
+class Test4 extends SSTest{                           //CHANGED//
     void foo() { return methodname_2(4); }
 }
 
