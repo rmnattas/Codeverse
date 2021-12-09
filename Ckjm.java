@@ -18,16 +18,10 @@ public class Ckjm {
         Process p1 = Executer.exec(getClassFiles2);
         Map<String, Map<String, Integer>> idealClassMap = parseOutput(command + idealClassPath, p1);
 
-        // for (String key: classMap.keySet()) {
-        //     System.out.println(key);
-        //     System.out.println(classMap.get(key));
-        // }
 
         inheritanceTest(classMap, idealClassMap);
         couplingTest(classMap, idealClassMap);
         cohesionTest(classMap, idealClassMap);
-        // ProgramNocTest(classMap, idealClassMap);
-        // ClassNocTest(classMap);
         publicMethodsTest(classMap);
     }
 
@@ -40,7 +34,6 @@ public class Ckjm {
         try{
             while ((line = reader.readLine()) != null) {
                 String curr_command = command + line;
-                // System.out.println(curr_command);
                 Process p1 = Executer.exec(curr_command);
                 String output_string = Executer.getFirstResult(p1);
                 if(output_string != null){
@@ -91,8 +84,6 @@ public class Ckjm {
             System.out.println("    " + ctr + ". Depth of inheritance is too large, try to Use Composition over Inheritance for some classes\n");
             ctr += 1;
         }
-        // else System.out.println("-----Inheritance TEST PASSED-----!");
-        // System.out.println(ratio);
     }
 
 
@@ -131,8 +122,6 @@ public class Ckjm {
             System.out.println("    " + ctr + ". Too much coupling between classes, try to make your classes more independent\n");
             ctr += 1;
         }
-        // else System.out.println("-----Coupling TEST PASSED-----!");
-        // System.out.println(ratio);
     }
 
 
@@ -156,41 +145,10 @@ public class Ckjm {
                     System.out.println("    " + ctr + ". " + studentClass + ".class: Methods in the class are less cohesive.\n\t  Remove or Rewrite the unrelated methods.\n");
                     ctr += 1;
                 }
-                // else System.out.println("-----" + studentClass + ".class: Cohesion TEST PASSED-----!");
-                // System.out.println(ratio);
             }
         }
     }
 
-    // public static void ProgramNocTest(Map<String, Map<String, Integer>> classMap, Map<String, Map<String, Integer>> idealClassMap){
-    //     int sum=0;
-    //     for (String Class:classMap.keySet()){
-    //         sum+=classMap.get(Class).get("NOC");
-    //     }
-
-    //     float student_ratio=(float)sum/classMap.size();
-        
-    //     sum=0;
-    //     for (String Class:idealClassMap.keySet()){
-    //         sum+=idealClassMap.get(Class).get("NOC");
-    //     }
-
-    //     float ideal_ratio=(float)sum/idealClassMap.size();NPM
-
-    //     float ratio=student_ratio/ideal_ratio;
-
-    //     if (ratio>1.25) System.out.println("Too many inheretance, potentially vulnerable to security explotation");
-    //     else if (ratio<0.75) System.out.println("Probably not enough inheretance, potentially lacking cohesion in the program");
-    //     else System.out.println("Program-wise NOC test passed");
-    // }
-
-    // public static void ClassNocTest(Map<String, Map<String, Integer>> classMap){
-    //     for (String Class:classMap.keySet()){
-    //         if (classMap.get(Class).get("NOC")==0){
-    //             System.out.println("This class is not inherited, consider composition instead");
-    //         }
-    //     }
-    // }
 
     public static void publicMethodsTest(Map<String, Map<String, Integer>> classMap){
         for (String Class:classMap.keySet()){
@@ -198,7 +156,6 @@ public class Ckjm {
                 System.out.println("    " + ctr + ". " + Class + ".class: No pubic methods found! Methods of this class can't be accessed anywhere.\n\t   kindly add public methods or delete the class\n");
                 ctr += 1;
             }
-            // else System.out.println("-----" + Class + ".class: Public Methods TEST PASSED-----!");
         }
     }
 
