@@ -40,8 +40,6 @@ public class Codeverse {
         try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
         classPath = TEMP_PATH+"source/";
         
-        // System.out.println(sourcePath);
-        // System.out.println(classPath);
         System.out.println("=====RECOMMENDATIONS=====");
 
         if (runCmp){
@@ -55,9 +53,6 @@ public class Codeverse {
             p = Executer.exec(cmd);  // .java -> .class
             try { p.waitFor(); } catch (Exception e) { System.out.println(e);}
             solutionClassPath = TEMP_PATH+"solution/";
-
-            // System.out.println(solutionSourcePath);
-            // System.out.println(solutionClassPath);
 
             System.out.println("----------Design-----------\n");
             Ckjm.run(classPath, solutionClassPath);
